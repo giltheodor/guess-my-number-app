@@ -3,6 +3,7 @@ import { StyleSheet, ImageBackground, SafeAreaView } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { useFonts } from "expo-font";
 import AppLoading from "expo-app-loading";
+import { StatusBar } from "expo-status-bar";
 
 import StartGameScreen from "./screens/StartGameScreen";
 import GameScreen from "./screens/GameScreen";
@@ -39,36 +40,39 @@ export default function App() {
   };
 
   return (
-    <LinearGradient
-      colors={[Colors.primary700, Colors.accent500]}
-      style={styles.rootScreen}
-    >
-      <ImageBackground
-        source={require("./assets/images/background.png")}
+    <>
+      <StatusBar style="inverted" />
+      <LinearGradient
+        colors={[Colors.primary700, Colors.accent500]}
         style={styles.rootScreen}
-        resizeMode="cover"
-        imageStyle={styles.backgroundImage}
       >
-        <SafeAreaView style={styles.rootScreen}>
-          {userNumber ? (
-            gameIsOver ? (
-              <GameOverScreen
-                userNumber={userNumber}
-                roundsNumber={guessRounds}
-                onStartNewGame={startNewGameHandler}
-              />
+        <ImageBackground
+          source={require("./assets/images/background.png")}
+          style={styles.rootScreen}
+          resizeMode="cover"
+          imageStyle={styles.backgroundImage}
+        >
+          <SafeAreaView style={styles.rootScreen}>
+            {userNumber ? (
+              gameIsOver ? (
+                <GameOverScreen
+                  userNumber={userNumber}
+                  roundsNumber={guessRounds}
+                  onStartNewGame={startNewGameHandler}
+                />
+              ) : (
+                <GameScreen
+                  userNumber={userNumber}
+                  onGameOver={gameOverHandler}
+                />
+              )
             ) : (
-              <GameScreen
-                userNumber={userNumber}
-                onGameOver={gameOverHandler}
-              />
-            )
-          ) : (
-            <StartGameScreen onPickNumber={pickedNumberHandler} />
-          )}
-        </SafeAreaView>
-      </ImageBackground>
-    </LinearGradient>
+              <StartGameScreen onPickNumber={pickedNumberHandler} />
+            )}
+          </SafeAreaView>
+        </ImageBackground>
+      </LinearGradient>
+    </>
   );
 }
 
